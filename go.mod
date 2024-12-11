@@ -55,7 +55,7 @@ require (
 	github.com/go-ini/ini v1.62.0
 	github.com/go-logr/logr v0.4.0
 	github.com/gogo/protobuf v1.3.2
-	github.com/google/go-cmp v0.5.5
+	github.com/google/go-cmp v0.6.0
 	github.com/google/go-containerregistry v0.5.1
 	github.com/google/uuid v1.2.0
 	github.com/gophercloud/gophercloud v0.18.0
@@ -75,10 +75,10 @@ require (
 	github.com/stretchr/testify v1.7.0
 	github.com/weaveworks/mesh v0.0.0-20191105120815-58dbcc3e8e63
 	github.com/zclconf/go-cty v1.8.2
-	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a
-	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
+	golang.org/x/crypto v0.31.0
+	golang.org/x/net v0.25.0
 	golang.org/x/oauth2 v0.0.0-20210514164344-f6687ab2804c
-	golang.org/x/sys v0.0.0-20210603081109-ebe580a85c40
+	golang.org/x/sys v0.28.0
 	google.golang.org/api v0.45.0
 	gopkg.in/gcfg.v1 v1.2.3
 	gopkg.in/inf.v0 v0.9.1

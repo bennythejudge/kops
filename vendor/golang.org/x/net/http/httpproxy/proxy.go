@@ -81,8 +81,7 @@ type config struct {
 
 // FromEnvironment returns a Config instance populated from the
 // environment variables HTTP_PROXY, HTTPS_PROXY and NO_PROXY (or the
-// lowercase versions thereof). HTTPS_PROXY takes precedence over
-// HTTP_PROXY for https requests.
+// lowercase versions thereof).
 //
 // The environment values may be either a complete URL or a
 // "host[:port]", in which case the "http" scheme is assumed. An error
@@ -113,8 +112,8 @@ func getEnvAny(names ...string) string {
 // environment, or a proxy should not be used for the given request, as
 // defined by NO_PROXY.
 //
-// As a special case, if req.URL.Host is "localhost" (with or without a
-// port number), then a nil URL and nil error will be returned.
+// As a special case, if req.URL.Host is "localhost" or a loopback address
+// (with or without a port number), then a nil URL and nil error will be returned.
 func (cfg *Config) ProxyFunc() func(reqURL *url.URL) (*url.URL, error) {
 	// Preprocess the Config settings for more efficient evaluation.
 	cfg1 := &config{
@@ -150,10 +149,7 @@ func parseProxy(proxy string) (*url.URL, error) {
 	}
 
 	proxyURL, err := url.Parse(proxy)
-	if err != nil ||
-		(proxyURL.Scheme != "http" &&
-			proxyURL.Scheme != "https" &&
-			proxyURL.Scheme != "socks5") {
+	if err != nil || proxyURL.Scheme == "" || proxyURL.Host == "" {
 		// proxy was bogus. Try prepending "http://" to it and
 		// see if that parses correctly. If not, we fall
 		// through and complain about the original one.
@@ -266,6 +262,9 @@ func (c *config) init() {
 		if phost[0] != '.' {
 			matchHost = true
 			phost = "." + phost
+		}
+		if v, err := idnaASCII(phost); err == nil {
+			phost = v
 		}
 		c.domainMatchers = append(c.domainMatchers, domainMatch{host: phost, port: pport, matchHost: matchHost})
 	}
